@@ -21,7 +21,7 @@ async fn main()->Result<(),Box<dyn std::error::Error>> {
         let model ="afaina".to_string();
 
         let mut history = vec![];
-        let res =  Ollama::from_url("http://46.149.67.179/ollama".parse().unwrap()).send_chat_messages_with_history(
+        let res =  Ollama::default().send_chat_messages_with_history(
             &mut history,
             ChatMessageRequest::new(
                 model,
