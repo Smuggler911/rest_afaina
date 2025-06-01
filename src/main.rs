@@ -21,7 +21,7 @@ async fn main()->Result<(),Box<dyn std::error::Error>> {
         let model ="afaina".to_string();
 
         let mut history = vec![];
-        let res = Ollama::default().send_chat_messages_with_history(
+        let res =  Ollama::from_url("http://46.149.67.179/ollama".parse().unwrap()).send_chat_messages_with_history(
             &mut history,
             ChatMessageRequest::new(
                 model,
@@ -31,7 +31,7 @@ async fn main()->Result<(),Box<dyn std::error::Error>> {
 
         match res {
             Ok(response)=>(axum::http::StatusCode::OK, Json(response)).into_response(),
-            Err(_)=>(axum::http::StatusCode::INTERNAL_SERVER_ERROR, "Error").into_response(),
+            Err(e )=>(axum::http::StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
         }
 
     })).layer(cors);
